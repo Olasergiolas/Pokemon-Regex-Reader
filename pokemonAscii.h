@@ -1,3 +1,6 @@
+#include <iostream>
+using namespace std;
+
 static const string squirtle = R"(
                   ___
               _.-~~   ~~~-.
