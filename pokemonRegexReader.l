@@ -1,6 +1,6 @@
 %option noyywrap
 
-/*----Declaraciones-----*\
+/*----Declaraciones-----*/
 
 %{
 #include "pokemonAscii.h"
@@ -15,7 +15,7 @@ struct Pokemon{
     string nombre, tipo, sexo, num_pokedex;
     float peso, altura;
     int ps, attk, def;
-}
+};
 
 vector<bool> stats(9, false);
 vector<Pokemon> listado_pokemon;
@@ -41,11 +41,10 @@ linea   \n
 
 %%
 
-/*----Reglas-----*\
-
 {NOMBRE}    {
+    add = true;
     for (unsigned i = 0; i < stats.size() && add; ++i){
-        if (v[i] == false)
+        if (stats[i] == false)
             add = false;
     }
 
@@ -95,27 +94,31 @@ linea   \n
     }
 
 {TIPO}    {
-    aux.t = YYText();
+    aux.tipo = YYText();
     stats[8] = true;
     }
 
+.   {}
+
 %%
 
-/*----Procedimientos-----*\
+/*----Procedimientos-----*/
 
 int main (int argc, char *argv[])
 {
     if (argc == 2)
     {
         input.open(argv[1]);
-        if (input == 0) {
+        if (input.fail()) {
             cout << "Error de lectura" << endl;
         }
     }
-    else
+    else {
+        cout << "Falta archivo de entrada" << endl;
         exit(-1);
+    }
 
-    yyFlexLexer stream (&fichero,0);
+    yyFlexLexer stream (&input,0);
     stream.yylex();
 
     for (auto i : listado_pokemon) {
