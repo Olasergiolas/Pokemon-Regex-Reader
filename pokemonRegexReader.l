@@ -40,7 +40,7 @@ TIPO    "fuego"|"planta"|"agua"
 linea   \n
 
 %%
-
+    /*----Reglas-----*/
 {NOMBRE}    {
     add = true;
     for (unsigned i = 0; i < stats.size() && add; ++i){
@@ -109,7 +109,7 @@ int main (int argc, char *argv[])
     if (argc == 2)
     {
         input.open(argv[1]);
-        if (input.fail()) {
+        if (!input) {
             cout << "Error de lectura" << endl;
         }
     }
