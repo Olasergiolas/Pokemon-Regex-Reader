@@ -1,6 +1,7 @@
 %option noyywrap
 
 /*----Declaraciones-----*\
+
 %{
 #include "pokemonAscii.h"
 #include <fstream>
@@ -37,6 +38,7 @@ VIDA    {ENTERO}PS
 NUMPOKEDEX  {DIGITO}{3,}
 TIPO    "fuego"|"planta"|"agua"
 linea   \n
+
 %%
 
 /*----Reglas-----*\
@@ -96,3 +98,27 @@ linea   \n
     aux.t = YYText();
     stats[8] = true;
     }
+
+%%
+
+/*----Procedimientos-----*\
+
+int main (int argc, char *argv[])
+{
+    if (argc == 2)
+    {
+        input.open(argv[1]);
+        if (input == 0) {
+            cout << "Error de lectura" << endl;
+        }
+    }
+    else
+        exit(-1);
+
+    yyFlexLexer stream (&fichero,0);
+    stream.yylex();
+
+    for (auto i : listado_pokemon) {
+        cout << i.nombre << endl;
+    }
+}
