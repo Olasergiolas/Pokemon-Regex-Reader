@@ -115,6 +115,7 @@ int main (int argc, char *argv[])
         input.open(argv[1]);
         if (!input) {
             cout << "Error de lectura" << endl;
+            exit(-1);
         }
     }
     else {
