@@ -48,9 +48,6 @@ linea   \n
 
 {NOMBRE}    {
     aniadirPokemon();
-
-    stats.clear();
-    stats.assign(9, false);
     aux.nombre = YYText();
     stats[0] = true;
     }
@@ -193,6 +190,9 @@ void aniadirPokemon()
             aux.ascii.clear();
         listado_pokemon.push_back(aux); 
     }
+
+    stats.clear();
+    stats.assign(9, false);
 }
 
 void Pokemon::mostrarInfo() 
