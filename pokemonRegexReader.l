@@ -17,6 +17,7 @@ struct Pokemon{
     int ps, attk, def;
 
     void mostrarInfo();
+    void atacar(Pokemon& p);
 };
 
 vector<bool> stats(9, false);
@@ -147,6 +148,30 @@ int main (int argc, char *argv[])
 
     cout << "\n\n¡Adelante " << pkmn_usuario.nombre << '!' << endl;
     pkmn_usuario.mostrarInfo();
+
+    char temp;
+    cout << "\n¿A luchar? (s)i/(n)o" << endl;
+    cin >> temp;
+
+    bool pokemon_caido = false;
+    if (temp == 's') {
+        while (!pokemon_caido) {
+            pkmn_rival.atacar(pkmn_usuario);
+            if (pkmn_usuario.ps <= 0)
+                pokemon_caido = true;
+
+            if (!pokemon_caido) {
+                pkmn_usuario.atacar(pkmn_rival);
+                if (pkmn_rival.ps <= 0)
+                    pokemon_caido = true;
+            }
+        }
+
+        if (pkmn_usuario.ps <= 0)
+            cout << "\n¡El ganador es " << pkmn_rival.nombre << '!' << endl;
+        else
+            cout << "\n¡El ganador es " << pkmn_usuario.nombre << '!' << endl;
+    }
 }
 
 void aniadirPokemon()
@@ -174,4 +199,31 @@ void Pokemon::mostrarInfo()
 {
     cout << ascii << '[' << num_pokedex << "] [" << tipo << "] [" << sexo << "] "  << altura << "m " 
         << peso << "kg " << ps  << "PS " << attk << "ATTK " << def << "DEF " << endl;
+}
+
+void Pokemon::atacar(Pokemon& p)
+{
+    int atk = 0;
+    cout << "\n¡" << nombre << " ataca!" << endl;
+
+    atk = attk+rand()%20+1 - p.def;
+    if (atk < 0)
+        atk = 0;
+    if (tipo.compare("Planta") == 0 && p.tipo.compare("Agua") == 0)
+        atk *= 2;
+    else if (tipo.compare("Agua") == 0 && p.tipo.compare("Planta") == 0)
+        atk *= 0.5;
+    else if (tipo.compare("Agua") == 0 && p.tipo.compare("Fuego") == 0)
+        atk *= 2;
+    else if (tipo.compare("Fuego") == 0 && p.tipo.compare("Agua") == 0)
+        atk *= 0.5;
+    else if (tipo.compare("Fuego") == 0 && p.tipo.compare("Planta") == 0)
+        atk *= 2;
+    else if (tipo.compare("Planta") == 0 && p.tipo.compare("Fuego") == 0)
+        atk *= 0.5;
+    else if (tipo.compare(p.tipo) == 0)
+        atk *= 0.5;
+
+    cout << p.nombre << " recibe " << atk << " puntos de daño." << endl;
+    p.ps -= atk;
 }
