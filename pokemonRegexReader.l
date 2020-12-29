@@ -15,6 +15,8 @@ struct Pokemon{
     string nombre, tipo, sexo, num_pokedex, ascii;
     float peso, altura;
     int ps, attk, def;
+
+    void mostrarInfo();
 };
 
 vector<bool> stats(9, false);
@@ -109,7 +111,7 @@ linea   \n
 int main (int argc, char *argv[])
 {
     srand(time(NULL));
-    int pos;
+    unsigned pos;
     Pokemon pkmn_usuario, pkmn_rival;
 
     if (argc == 2)
@@ -127,7 +129,7 @@ int main (int argc, char *argv[])
     yyFlexLexer stream (&input,0);
     stream.yylex();
 
-    cout << "¡Rival Azul quiere combatir!" << endl;
+    cout << "\n¡Rival Azul quiere combatir!" << endl;
     pos = rand()%listado_pokemon.size();
     pkmn_rival = listado_pokemon[pos];
     listado_pokemon.erase(listado_pokemon.begin()+pos);
@@ -136,14 +138,16 @@ int main (int argc, char *argv[])
     cout << "Escoge Pokémon: " << endl;
     for (unsigned i = 0; i < listado_pokemon.size(); ++i)
         cout << '(' << i << ") - " << listado_pokemon[i].nombre << endl;
-    pos = -1;
     do {
         cin >> pos;
     } while(pos < 0 || pos >= listado_pokemon.size());
     pkmn_usuario = listado_pokemon[pos];
 
-    cout << "Rival: ¡Adelante " << pkmn_rival.nombre << '!' << endl << pkmn_rival.ascii << endl;
-    cout << "¡Adelante " << pkmn_usuario.nombre << '!' << endl << pkmn_usuario.ascii;
+    cout << "\nRival: ¡Adelante " << pkmn_rival.nombre << '!' << endl;
+    pkmn_rival.mostrarInfo();
+
+    cout << "\n\n¡Adelante " << pkmn_usuario.nombre << '!' << endl;
+    pkmn_usuario.mostrarInfo();
 }
 
 void aniadirPokemon()
@@ -155,12 +159,20 @@ void aniadirPokemon()
     }
 
     if (add) {
-        if (aux.nombre.compare("Bulbasaur") == 0) 
+        if (aux.nombre.compare("Bulbasaur") == 0)
             aux.ascii = bulbasaur;
         else if (aux.nombre.compare("Charmander") == 0)
             aux.ascii = charmander;
         else if (aux.nombre.compare("Squirtle") == 0)
             aux.ascii = squirtle;
+        else
+            aux.ascii.clear();
         listado_pokemon.push_back(aux); 
     }
+}
+
+void Pokemon::mostrarInfo() 
+{
+    cout << ascii << '[' << tipo << "] [" << sexo << "] "  << altura << "m " 
+        << peso << "kg " << ps  << "PS " << attk << "ATTK " << def << "DEF " << endl;
 }
