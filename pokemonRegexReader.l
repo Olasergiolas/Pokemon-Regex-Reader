@@ -28,8 +28,8 @@ NOMBRE  "Char"{PALABRA}|{PALABRA}tle|"Blastoise"|{PALABRA}saur
 DIGITO  [0-9]
 ENTERO  {DIGITO}+
 REAL    {ENTERO}"."{ENTERO}
-ALTURA  {ENTERO}|{REAL}("m"|"cm")
-PESO    {ENTERO}|{REAL}("g"|"kg")
+ALTURA  ({ENTERO}|{REAL})("m"|"cm")
+PESO    ({ENTERO}|{REAL})("g"|"kg")
 SEXO    "macho"|"hembra"
 ATAQUE  {ENTERO}ATTK
 DEFENSA {ENTERO}DEF
