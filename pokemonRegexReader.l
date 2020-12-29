@@ -40,7 +40,6 @@ DEFENSA {DIGITO}+DEF
 VIDA    {DIGITO}+PS
 NUMPOKEDEX  {DIGITO}{3,}
 TIPO    "fuego"|"planta"|"agua"
-linea   \n
 
 %%
 
