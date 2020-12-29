@@ -209,17 +209,17 @@ void Pokemon::atacar(Pokemon& p)
     atk = attk+rand()%20+1 - p.def;
     if (atk < 0)
         atk = 0;
-    if (tipo.compare("Planta") == 0 && p.tipo.compare("Agua") == 0)
+    if (tipo.compare("planta") == 0 && p.tipo.compare("agua") == 0)
         atk *= 2;
-    else if (tipo.compare("Agua") == 0 && p.tipo.compare("Planta") == 0)
+    else if (tipo.compare("agua") == 0 && p.tipo.compare("planta") == 0)
         atk *= 0.5;
-    else if (tipo.compare("Agua") == 0 && p.tipo.compare("Fuego") == 0)
+    else if (tipo.compare("agua") == 0 && p.tipo.compare("fuego") == 0)
         atk *= 2;
-    else if (tipo.compare("Fuego") == 0 && p.tipo.compare("Agua") == 0)
+    else if (tipo.compare("fuego") == 0 && p.tipo.compare("agua") == 0)
         atk *= 0.5;
-    else if (tipo.compare("Fuego") == 0 && p.tipo.compare("Planta") == 0)
+    else if (tipo.compare("fuego") == 0 && p.tipo.compare("planta") == 0)
         atk *= 2;
-    else if (tipo.compare("Planta") == 0 && p.tipo.compare("Fuego") == 0)
+    else if (tipo.compare("planta") == 0 && p.tipo.compare("fuego") == 0)
         atk *= 0.5;
     else if (tipo.compare(p.tipo) == 0)
         atk *= 0.5;
