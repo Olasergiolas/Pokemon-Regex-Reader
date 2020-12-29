@@ -1,6 +1,6 @@
 %option noyywrap
 
-/*----Declaraciones-----*/
+    /*----Declaraciones-----*/
 
 %{
 #include "pokemonAscii.h"
@@ -12,7 +12,7 @@ using namespace std;
 ifstream input;
 
 struct Pokemon{
-    string nombre, tipo, sexo, num_pokedex;
+    string nombre, tipo, sexo, num_pokedex, ascii;
     float peso, altura;
     int ps, attk, def;
 };
@@ -20,7 +20,8 @@ struct Pokemon{
 vector<bool> stats(9, false);
 vector<Pokemon> listado_pokemon;
 Pokemon aux;
-bool add = true;
+
+void aniadirPokemon();
 %}
 
 LETRA   [A-Za-z]
@@ -29,8 +30,8 @@ NOMBRE  "Char"{PALABRA}|{PALABRA}tle|"Blastoise"|{PALABRA}saur
 DIGITO  [0-9]
 ENTERO  {DIGITO}+
 REAL    {ENTERO}"."{ENTERO}
-ALTURA  ({ENTERO}|{REAL})("m"|"cm")
-PESO    ({ENTERO}|{REAL})("g"|"kg")
+ALTURA  ({ENTERO}|{REAL})m
+PESO    ({ENTERO}|{REAL})kg
 SEXO    "macho"|"hembra"
 ATAQUE  {ENTERO}ATTK
 DEFENSA {ENTERO}DEF
@@ -40,18 +41,12 @@ TIPO    "fuego"|"planta"|"agua"
 linea   \n
 
 %%
+
     /*----Reglas-----*/
+
 {NOMBRE}    {
-    add = true;
-    for (unsigned i = 0; i < stats.size() && add; ++i){
-        if (stats[i] == false)
-            add = false;
-    }
+    aniadirPokemon();
 
-    if (add)
-        listado_pokemon.push_back(aux);
-
-    add = false;
     stats.clear();
     stats.assign(9, false);
     aux.nombre = YYText();
@@ -98,14 +93,25 @@ linea   \n
     stats[8] = true;
     }
 
+\n   {}
+
+<<EOF>> {
+    aniadirPokemon();
+    return 0;
+    }
+
 .   {}
 
 %%
 
-/*----Procedimientos-----*/
+    /*----Procedimientos-----*/
 
 int main (int argc, char *argv[])
 {
+    srand(time(NULL));
+    int pos;
+    Pokemon pkmn_usuario, pkmn_rival;
+
     if (argc == 2)
     {
         input.open(argv[1]);
@@ -121,7 +127,40 @@ int main (int argc, char *argv[])
     yyFlexLexer stream (&input,0);
     stream.yylex();
 
-    for (auto i : listado_pokemon) {
-        cout << i.nombre << endl;
+    cout << "¡Rival Azul quiere combatir!" << endl;
+    pos = rand()%listado_pokemon.size();
+    pkmn_rival = listado_pokemon[pos];
+    listado_pokemon.erase(listado_pokemon.begin()+pos);
+    cout << "Rival Azul va a sacar a " << pkmn_rival.nombre << '.' << endl << endl;
+
+    cout << "Escoge Pokémon: " << endl;
+    for (unsigned i = 0; i < listado_pokemon.size(); ++i)
+        cout << '(' << i << ") - " << listado_pokemon[i].nombre << endl;
+    pos = -1;
+    do {
+        cin >> pos;
+    } while(pos < 0 || pos >= listado_pokemon.size());
+    pkmn_usuario = listado_pokemon[pos];
+
+    cout << "Rival: ¡Adelante " << pkmn_rival.nombre << '!' << endl << pkmn_rival.ascii << endl;
+    cout << "¡Adelante " << pkmn_usuario.nombre << '!' << endl << pkmn_usuario.ascii;
+}
+
+void aniadirPokemon()
+{
+    bool add = true;
+    for (unsigned i = 0; i < stats.size() && add; ++i){
+        if (stats[i] == false)
+            add = false;
+    }
+
+    if (add) {
+        if (aux.nombre.compare("Bulbasaur") == 0) 
+            aux.ascii = bulbasaur;
+        else if (aux.nombre.compare("Charmander") == 0)
+            aux.ascii = charmander;
+        else if (aux.nombre.compare("Squirtle") == 0)
+            aux.ascii = squirtle;
+        listado_pokemon.push_back(aux); 
     }
 }
