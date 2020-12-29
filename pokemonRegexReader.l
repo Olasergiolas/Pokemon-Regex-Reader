@@ -28,16 +28,15 @@ void aniadirPokemon();
 
 LETRA   [A-Za-z]
 PALABRA {LETRA}+
-NOMBRE  "Char"{PALABRA}|{PALABRA}tle|"Blastoise"|{PALABRA}saur
+NOMBRE  Char{PALABRA}|{PALABRA}tle|"Blastoise"|{PALABRA}saur
 DIGITO  [0-9]
-ENTERO  {DIGITO}+
-REAL    {ENTERO}"."{ENTERO}
-ALTURA  ({ENTERO}|{REAL})m
-PESO    ({ENTERO}|{REAL})kg
+REAL    {DIGITO}+("."{DIGITO}+)?
+ALTURA  {REAL}m
+PESO    {REAL}kg
 SEXO    "macho"|"hembra"
-ATAQUE  {ENTERO}ATTK
-DEFENSA {ENTERO}DEF
-VIDA    {ENTERO}PS
+ATAQUE  {DIGITO}+ATTK
+DEFENSA {DIGITO}+DEF
+VIDA    {DIGITO}+PS
 NUMPOKEDEX  {DIGITO}{3,}
 TIPO    "fuego"|"planta"|"agua"
 linea   \n
@@ -173,6 +172,6 @@ void aniadirPokemon()
 
 void Pokemon::mostrarInfo() 
 {
-    cout << ascii << '[' << tipo << "] [" << sexo << "] "  << altura << "m " 
+    cout << ascii << '[' << num_pokedex << "] [" << tipo << "] [" << sexo << "] "  << altura << "m " 
         << peso << "kg " << ps  << "PS " << attk << "ATTK " << def << "DEF " << endl;
 }
